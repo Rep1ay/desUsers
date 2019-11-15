@@ -1,12 +1,6 @@
 chrome.runtime.onMessage.addListener(function(request){
-	const userDataList = [];
+	debugger
 	document.querySelectorAll(".user-container").forEach(function(user) {
-		userDataList.push(
-		{
-			"userName": user.innerText,
-			"userId": user.firstChild.children[0].attributes["user-id"].value
-		}
-		);
 
 		const userBody = JSON.stringify({
 			"userName": user.innerText,
@@ -20,8 +14,7 @@ chrome.runtime.onMessage.addListener(function(request){
 
 		http.onreadystatechange = function() {
 			if (http.readyState == 4) {
-				console.log('http: ', JSON.stringify({http}));
-				
+				console.log('http: status 200');
 			}
 		}
 		http.send(userBody);
