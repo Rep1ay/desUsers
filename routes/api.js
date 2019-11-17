@@ -35,10 +35,15 @@ router.put('/members', (req, res) => {
     let totalTime = 15;
     let userName = req.body.userName
     var query = { "userId": Id };
+    let opts = {
+        upsert: true,
+        new: true
+      };
 
-    UsersData.findOneAndUpdate(query, 
+    UsersData.findOneAndUpdate(query,
         { $set: {"userName": userName, 'totalTime' : totalTime} }, 
-        
+        opts,
+
      function(err, template){
         if(err){
             console.log("Something wrong when updating data!"+ '</br>' + err);
