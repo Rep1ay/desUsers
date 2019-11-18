@@ -19,9 +19,10 @@ router.get('/', (req, res) => {
 })
 
 router.get('/members', (req, res) => {
-    console.log('req.body: ', req.body);
+   
     UsersData.find({},(err, users_data) => {
             res.status(200).send(users_data)
+             console.log('req.body: ', users_data);
         },
         (err) => {
             return res.res.status(500).send(err)
@@ -32,7 +33,7 @@ router.get('/members', (req, res) => {
 router.put('/members', (req, res) => {
     
     let Id =  req.body.userId;
-    let totalTime = 15;
+    let totalTime = req.body.totalTime;
     let userName = req.body.userName
     var query = { "userId": Id };
     let opts = {
