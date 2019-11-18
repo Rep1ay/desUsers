@@ -10,27 +10,18 @@ document.querySelector("#stopCount").addEventListener("click", onStop, false)
 let startCount;
 
 	function onStart(){
-
-		startCount =  setInterval(() => {
-			const http = new XMLHttpRequest();
-
-			http.open("GET", "http://localhost/api/members", true);
-			http.setRequestHeader("Content-type", "application/json; charset=utf-8");
-	
-			http.onreadystatechange = function() {
-				if (http.readyState == 4) {
-					chrome.tabs.query({currentWindow: true, active: true},
-					function(tabs){
-						chrome.tabs.sendMessage(tabs[0].id, (http.response))
-					})
-				}
-			}
-			http.send();
-		}, 60000)
+		chrome.tabs.query({currentWindow: true, active: true},
+		function(tabs){
+			chrome.tabs.sendMessage(tabs[0].id, {action: "start"})
+		})
 	}
 
+
 	function onStop(){
-		clearInterval(startCount);
+		chrome.tabs.query({currentWindow: true, active: true},
+		function(tabs){
+			chrome.tabs.sendMessage(tabs[0].id, {action: "stop"})
+		})
 	}
 	
 }, false)

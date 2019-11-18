@@ -3,13 +3,8 @@
 // found in the LICENSE file.
 
   chrome.runtime.onMessage.addListener(function(message, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost/api/members", true);
-    xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
+
       alert("from background")
-    }
-    }
-    xhr.send();
+
 
   });
