@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(function(resp){
 	if(!sessionStorage.counting && resp.action === "start"){
 		if(scrollBar){
 		sessionStorage.setItem('counting', true);
-		window.interval = setInterval(startCount, 3000);
+		window.interval = setInterval(startCount, 300000);
 		startCount();
 		}else{
 			alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
