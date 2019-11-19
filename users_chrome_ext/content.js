@@ -2,23 +2,25 @@ chrome.runtime.onMessage.addListener(function(resp){
 	window.interval;
 	const scrollBar = document.querySelector(".scrollbar-users");
 
-	if(!sessionStorage.counting && resp.action === "start"){
+	if(!window.counting && resp.action === "start"){
 		if(scrollBar){
-		sessionStorage.setItem('counting', true);
+		window["counting"] =  true;
 		window.interval = setInterval(startCount, 300000);
 		startCount();
 		}else{
 			alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
 		}
-	}else if(sessionStorage.counting && resp.action === "start"){
+	}else if(window.counting && resp.action === "start"){
 		alert("Подсчёт уже запущен")
 	}
 
 	if(resp.action === "stop"){
-		sessionStorage.removeItem('counting');
+		window.counting =  false;
 	}
 
 	function startCount(){
+		const scrollBar = document.querySelector(".scrollbar-users");
+		if(scrollBar){
 		window.pointsCounter = 0;
 
 		const http = new XMLHttpRequest();
@@ -73,6 +75,9 @@ chrome.runtime.onMessage.addListener(function(resp){
 			}
 		
 		http.send();
+		}else{
+			alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
+		}
 		}
 
 	if(resp.action === "stop"){
