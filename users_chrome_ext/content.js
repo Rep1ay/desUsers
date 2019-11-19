@@ -1,9 +1,15 @@
 chrome.runtime.onMessage.addListener(function(resp){
-	let interval;
+	window.interval;
+	const scrollBar = document.querySelector(".scrollbar-users");
+
 	if(!sessionStorage.counting && resp.action === "start"){
+		if(scrollBar){
 		sessionStorage.setItem('counting', true);
-		interval = setInterval(startCount, 300000);
+		window.interval = setInterval(startCount, 3000);
 		startCount();
+		}else{
+			alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
+		}
 	}else if(sessionStorage.counting && resp.action === "start"){
 		alert("Подсчёт уже запущен")
 	}
@@ -13,8 +19,8 @@ chrome.runtime.onMessage.addListener(function(resp){
 	}
 
 	function startCount(){
-		const scrollBar = document.querySelector(".scrollbar-users");
-		if(scrollBar){
+		window.pointsCounter = 0;
+
 		const http = new XMLHttpRequest();
 
 		http.open("GET", "http://localhost/api/members", true);
@@ -22,7 +28,7 @@ chrome.runtime.onMessage.addListener(function(resp){
 
 		http.onreadystatechange = function() {
 			if (http.readyState == 4) {
-				
+				window.pointsCounter++;
 				const db_users = JSON.parse(http.response);
 				const usersContainer = document.querySelectorAll(".user-container");
 				console.log("Добавлено " + usersContainer.length + " чел.");
@@ -67,13 +73,11 @@ chrome.runtime.onMessage.addListener(function(resp){
 			}
 		
 		http.send();
-		}else{
-			alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
 		}
-	};
 
 	if(resp.action === "stop"){
-		clearInterval(interval);
+		clearInterval(window.interval);
+		alert("Подсчёт остановлен");
 	}
 
 })
