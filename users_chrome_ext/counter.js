@@ -2,31 +2,30 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-'use strict';
-
+let onStart;
 document.addEventListener("DOMContentLoaded", function() {
-const startBtn = document.querySelector("#startCount");
-startBtn.addEventListener("click", onStart, false);
+document.querySelector("#runBtn").addEventListener("click", onStart, false)
 document.querySelector("#stopCount").addEventListener("click", onStop, false)
-
-function onStart(){
-	startBtn.disabled = true;
-	startBtn.style.background = "#ccc";
-	chrome.tabs.query({currentWindow: true, active: true},
-	function(tabs){
-		chrome.tabs.sendMessage(tabs[0].id, {action: "start"})
-	})
+const scrollBar = document.querySelector(".scrollbar-users");
+debugger
+if(scrollBar){
+	onStart = () =>{
+		chrome.tabs.query({currentWindow: true, active: true},
+		function(tabs){
+			chrome.tabs.sendMessage(tabs[0].id, {action: "start"})
+		})
+	}
+}else{
+	return;
 }
 
+
 function onStop(){
-	startBtn.disabled = false;
-	startBtn.style.background = "yellowgreen";
-	
 	chrome.tabs.query({currentWindow: true, active: true},
 	function(tabs){
 		chrome.tabs.sendMessage(tabs[0].id, {action: "stop"})
 	})
 }
-	
+
 }, false)
 
