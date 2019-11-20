@@ -1,8 +1,10 @@
 chrome.runtime.onMessage.addListener(function(resp){
 	if(!window.counting && resp.action === "start"){
 		function refreshChat(){
+			window.nextrequestTimer = 300;
 			const allWatchers = document.querySelectorAll('.menu-item__wrapper')[1];
 			const chat = document.querySelectorAll('.menu-item__wrapper')[0];
+			
 			allWatchers.click();
 			chat.click();
 			allWatchers.click();
@@ -34,6 +36,11 @@ chrome.runtime.onMessage.addListener(function(resp){
 			http.onreadystatechange = function() {
 				if (http.readyState == 4) {
 					window.pointsCounter++;
+					setInterval(function(){
+						window.nextrequestTimer--;
+						console.log("Запишу зрителей через " + window.nextrequestTimer + " c");
+					},1000)
+
 					const db_users = JSON.parse(http.response);
 					const usersContainer = document.querySelectorAll(".user-container");
 					console.log("Добавлено " + usersContainer.length + " чел.");
