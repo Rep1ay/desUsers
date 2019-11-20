@@ -1,5 +1,4 @@
 chrome.runtime.onMessage.addListener(function(resp){
-	window.interval;
 
 	function refreshChat(){
 		const allWatchers = document.querySelectorAll('.menu-item__wrapper')[1];
@@ -9,17 +8,11 @@ chrome.runtime.onMessage.addListener(function(resp){
 		allWatchers.click();
 		setTimeout(() => {
 			const scrollBar = document.querySelector(".scrollbar-users");
-
-			if(!window.counting && resp.action === "start"){
-				if(scrollBar){
-					window["counting"] =  true;
-					window.interval = setInterval(startCount, 300000);
-					startCount();
-				}else{
-					alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
-				}
-			}else if(window.counting && resp.action === "start"){
-				alert("Подсчёт уже запущен")
+			if(scrollBar){
+				window["counting"] =  true;
+				startCount();
+			}else{
+				alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
 			}
 		}, 8000);
 
@@ -27,8 +20,6 @@ chrome.runtime.onMessage.addListener(function(resp){
 			window.counting =  false;
 		}
 	}
-
-	refreshChat();
 
 	function startCount(){
 		const scrollBar = document.querySelector(".scrollbar-users");
@@ -90,7 +81,11 @@ chrome.runtime.onMessage.addListener(function(resp){
 		}else{
 			alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
 		}
-		}
+	}
+
+	window.interval;
+	window.interval = setInterval(refreshChat, 300000);
+	refreshChat();
 
 	if(resp.action === "stop"){
 		clearInterval(window.interval);
