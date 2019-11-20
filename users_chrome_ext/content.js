@@ -1,22 +1,34 @@
 chrome.runtime.onMessage.addListener(function(resp){
 	window.interval;
-	const scrollBar = document.querySelector(".scrollbar-users");
 
-	if(!window.counting && resp.action === "start"){
-		if(scrollBar){
-		window["counting"] =  true;
-		window.interval = setInterval(startCount, 300000);
-		startCount();
-		}else{
-			alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
+	function refreshChat(){
+		const allWatchers = document.querySelectorAll('.menu-item__wrapper')[1];
+		const chat = document.querySelectorAll('.menu-item__wrapper')[0];
+		allWatchers.click();
+		chat.click();
+		allWatchers.click();
+		setTimeout(() => {
+			const scrollBar = document.querySelector(".scrollbar-users");
+
+			if(!window.counting && resp.action === "start"){
+				if(scrollBar){
+					window["counting"] =  true;
+					window.interval = setInterval(startCount, 300000);
+					startCount();
+				}else{
+					alert("Не смог найти учасников чата, попробуй открыть вкладку 'Все участники'")
+				}
+			}else if(window.counting && resp.action === "start"){
+				alert("Подсчёт уже запущен")
+			}
+		}, 8000);
+
+		if(resp.action === "stop"){
+			window.counting =  false;
 		}
-	}else if(window.counting && resp.action === "start"){
-		alert("Подсчёт уже запущен")
 	}
 
-	if(resp.action === "stop"){
-		window.counting =  false;
-	}
+	refreshChat();
 
 	function startCount(){
 		const scrollBar = document.querySelector(".scrollbar-users");
