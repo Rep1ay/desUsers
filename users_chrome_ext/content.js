@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(function(resp){
 			http.onreadystatechange = function() {
 				if (http.readyState == 4) {
 					window.pointsCounter++;
-					setInterval(function(){
+					window.nextRequestInternal = setInterval(function(){
 						window.nextrequestTimer--;
 						console.log("Запишу зрителей через " + window.nextrequestTimer + " c");
 					},1000)
@@ -91,6 +91,7 @@ chrome.runtime.onMessage.addListener(function(resp){
 		}
 
 		window.interval;
+		window.nextRequestInternal;
 		window.interval = setInterval(refreshChat, 300000);
 		refreshChat();
 	}else if(window.counting && resp.action === "start"){
@@ -100,6 +101,8 @@ chrome.runtime.onMessage.addListener(function(resp){
 	if(resp.action === "stop"){
 		window.counting = false;
 		clearInterval(window.interval);
+		clearInterval(window.nextRequestInternal);
+		window.nextrequestTimer = 300;
 		alert("Подсчёт остановлен");
 	}
 
