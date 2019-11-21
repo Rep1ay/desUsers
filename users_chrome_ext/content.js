@@ -43,7 +43,7 @@ chrome.runtime.onMessage.addListener(function(resp){
 
 					const db_users = JSON.parse(http.response);
 					const usersContainer = document.querySelectorAll(".user-container");
-					console.log("Добавлено " + usersContainer.length + " чел.");
+					console.log("Добавлено " + usersContainer.length + " чел. " + "в " + new Date().getHours() + ":" + new Date().getMinutes());
 		
 						usersContainer.forEach(function(user) {
 							let userBody;
