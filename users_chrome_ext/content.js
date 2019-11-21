@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener(function(resp){
 					window.pointsCounter++;
 					window.nextRequestInternal = setInterval(function(){
 						window.nextrequestTimer--;
-						console.log("Запишу зрителей через " + window.nextrequestTimer + " c");
+						// console.log("Запишу зрителей через " + window.nextrequestTimer + " c");
 					},1000)
 
 					const db_users = JSON.parse(http.response);
