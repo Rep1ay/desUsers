@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener(function(resp){
 
 			const http = new XMLHttpRequest();
 
-			http.open("GET", "http://localhost/api/members", true);
+			http.open("GET", "https://des-watchers.herokuapp.com/api/members", true);
 			http.setRequestHeader("Content-type", "application/json; charset=utf-8");
 
 			http.onreadystatechange = function() {
