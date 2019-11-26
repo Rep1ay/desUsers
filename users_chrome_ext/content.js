@@ -77,7 +77,7 @@ chrome.runtime.onMessage.addListener(function(resp){
 							
 							const http = new XMLHttpRequest();
 					
-							http.open("PUT", "http://localhost/api/members", true);
+							http.open("PUT", "https://des-watchers.herokuapp.com/api/members", true);
 							http.setRequestHeader("Content-type", "application/json; charset=utf-8");
 							http.send(userBody);
 						})
